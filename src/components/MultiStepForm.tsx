@@ -11,17 +11,20 @@ export const MultiStepForm = () => {
   const desktop = (
     <div className='flex justify-center pt-[100px]'>
       <div className="bg-white p-4 ds:w-[940px] h-[600px] ds:rounded-2xl flex">
-        <div className="bg-desktop-sidebar pl-8 pt-10 w-[274px] ds:rounded-xl">
+        <section className="bg-desktop-sidebar pl-8 pt-10 w-[274px] ds:rounded-xl">
           <Step step={1} text='your info' currentStep={currentStep} />
           <Step step={2} text='select plan' currentStep={currentStep} />
           <Step step={3} text='add-ons' currentStep={currentStep} />
           <Step step={4} text='summary' currentStep={currentStep} />
-        </div>
-        <div className="bg-white p-10 font-medium flex-grow">
-          <div className="w-full flex justify-between">
-            <button className="text-cool_gray">Go Back</button>
+        </section>
+        <div className="bg-white p-10 font-medium flex-grow flex flex-col justify-between">
+          <section>
+            <Form_1 />
+          </section>
+          <section className="w-full flex justify-between flex-row-reverse">
+            {currentStep > 1 && <button className="text-cool_gray">Go Back</button>}
             <button className="w-28 h-11 bg-marine_blue rounded-lg text-alabaster" >Next Step</button>
-          </div>
+          </section>
         </div>
       </div>
     </div>
@@ -33,19 +36,21 @@ export const MultiStepForm = () => {
         <img className='absolute z-[-1]' src={mobileBg} />
       </div>
       <div className='flex flex-col justify-between pt-10 items-center h-full'>
-        <section className='relative flex gap-4'>
-          <Step step={1} currentStep={currentStep}/>
-          <Step step={2} currentStep={currentStep}/>
-          <Step step={2} currentStep={currentStep}/>
-          <Step step={2} currentStep={currentStep}/>  
+        <section className=''>
+          <div className='flex justify-center gap-4'>
+            <Step step={1} currentStep={currentStep} />
+            <Step step={2} currentStep={currentStep} />
+            <Step step={2} currentStep={currentStep} />
+            <Step step={2} currentStep={currentStep} />
+          </div>
+          <section className='w-[350px] bg-white rounded-2xl relative'>
+            <Form_1 />
+          </section>
         </section>
-        <section className='w-[350px] bg-white rounded-2xl relative'>
-          <Form_1 />
-        </section>
-        <section className="w-full p-4 bg-white flex justify-between">
-            <button className="text-cool_gray">Go Back</button>
-            <button className="w-28 h-11 bg-marine_blue rounded text-alabaster" >Next Step</button>
-        </section>
+        <footer className="w-full p-4 bg-white flex justify-between">
+          <button className="text-cool_gray">Go Back</button>
+          <button className="w-28 h-11 bg-marine_blue rounded text-alabaster" >Next Step</button>
+        </footer>
       </div>
     </div>
   )
@@ -67,8 +72,8 @@ const Step = ({ step, text, currentStep }: { step: number, text?: string, curren
         </p>
         {text && <div className="ml-4">
           <h2 className="font-thin text-xs text-cool_gray">STEP {step}</h2>
-          <h4 className="uppercase">{text}</h4> 
-          </div>
+          <h4 className="uppercase">{text}</h4>
+        </div>
         }
       </div>
     </div>
