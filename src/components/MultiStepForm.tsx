@@ -2,11 +2,52 @@ import mobileBg from '../assets/bg-sidebar-mobile.svg';
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import Form_1 from './Form_1';
+import type { PersonalInfoFormError } from './Form_1';
+import type { personalInfoData } from '../types/FormTypes';
 
-export const MultiStepForm = () => {
+
+// const data: Form1Data = { name: '', email: '', phone: '' }
+
+export default function MultiStepForm() {
   const [currentStep, setCurrentStep] = useState<number>(1);
+  const [pInfo, setPInfo] = useState<personalInfoData>({name: '', email: '', phone: ''});
+  const [pInfoError, setPInfoError] = useState<PersonalInfoFormError>({name: null, email: null, phone: null});
 
   const isDesktop: boolean = useMediaQuery({ minWidth: 940 });
+
+  const goNextStep = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if(currentStep === 1) console.log(validatePInfoFields());
+      return
+    setCurrentStep(prev => prev + 1);
+  }
+
+  const goPrevStep = () => {
+    setCurrentStep(prev => prev - 1);
+  }
+
+  const validatePInfoFields = () => {
+    const emptyField = 'This field is required';
+    const errors: PersonalInfoFormError  = { 
+      name: pInfo.name ? null : emptyField,
+      email: pInfo.email ? null : emptyField,
+      phone: pInfo.phone ? null : emptyField
+    }
+    setPInfoError(errors);
+    return !!errors.name || !!errors.email || !!errors.phone
+  }
+
+  const buttonGroup = (
+    <footer className="w-full p-4 bg-white flex justify-between flex-row-reverse">
+      <button 
+        className="w-28 h-11 text-alabaster bg-marine_blue hover:bg rounded ds:rounded-lg" 
+        type='submit'
+      >
+        Next Step
+      </button>
+      {currentStep > 1 && <button className="text-cool_gray" onClick={goPrevStep}>Go Back</button>}
+    </footer>
+  )
 
   const desktop = (
     <div className='flex justify-center pt-[100px]'>
@@ -17,15 +58,16 @@ export const MultiStepForm = () => {
           <Step step={3} text='add-ons' currentStep={currentStep} />
           <Step step={4} text='summary' currentStep={currentStep} />
         </section>
-        <div className="bg-white p-10 font-medium flex-grow flex flex-col justify-between">
+        <form 
+          className="bg-white p-10 pb-0 font-medium flex-grow flex flex-col justify-between" 
+          onSubmit={e => goNextStep(e)}
+          noValidate
+        >
           <section>
-            <Form_1 />
+            <Form_1 data={pInfo} onChange={setPInfo} error={pInfoError}/>
           </section>
-          <section className="w-full flex justify-between flex-row-reverse">
-            {currentStep > 1 && <button className="text-cool_gray">Go Back</button>}
-            <button className="w-28 h-11 bg-marine_blue rounded-lg text-alabaster" >Next Step</button>
-          </section>
-        </div>
+          {buttonGroup}
+        </form>
       </div>
     </div>
   )
@@ -35,27 +77,24 @@ export const MultiStepForm = () => {
       <div className="relative">
         <img className='absolute z-[-1]' src={mobileBg} />
       </div>
-      <div className='flex flex-col justify-between pt-10 items-center h-full'>
+      <form className='flex flex-col justify-between pt-10 items-center h-full' onSubmit={goNextStep}>
         <section className=''>
           <div className='flex justify-center gap-4'>
             <Step step={1} currentStep={currentStep} />
             <Step step={2} currentStep={currentStep} />
-            <Step step={2} currentStep={currentStep} />
-            <Step step={2} currentStep={currentStep} />
+            <Step step={3} currentStep={currentStep} />
+            <Step step={4} currentStep={currentStep} />
           </div>
           <section className='w-[350px] bg-white rounded-2xl relative'>
-            <Form_1 />
+            <Form_1 data={pInfo} onChange={setPInfo} error={pInfoError}/>
           </section>
         </section>
-        <footer className="w-full p-4 bg-white flex justify-between">
-          <button className="text-cool_gray">Go Back</button>
-          <button className="w-28 h-11 bg-marine_blue rounded text-alabaster" >Next Step</button>
-        </footer>
-      </div>
+        {buttonGroup}
+      </form>
     </div>
   )
-
-  return isDesktop ? desktop : mobile;
+    // console.log(PInfoHasEmptyField());
+  return isDesktop ? desktop : mobile;  
 }
 
 

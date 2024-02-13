@@ -16,7 +16,8 @@ export default {
       pastel_blue: "hsl(228, 100%, 84%)",
       light_blue: "hsl(206, 94%, 87%)",
       strawberry_red: "hsl(354, 84%, 57%)",
-      black: 'hsl(0, 0%, 0)'
+      black: 'hsl(0, 0%, 0)',
+      red: 'rgb(255, 0, 0)',
     },
     screens: {
       'ds': '940px', 
