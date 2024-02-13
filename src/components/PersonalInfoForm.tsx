@@ -6,16 +6,15 @@ export type PersonalInfoFormError = {
   phone: string | null
 }
 
-type Form1Props = {
+type PersonalInfoFormProps = {
   data: personalInfoData,
   onChange: React.Dispatch<React.SetStateAction<personalInfoData>>,
   error: PersonalInfoFormError
 }
 
-export default function Form_1({ data, onChange, error }: Form1Props) {
+export default function PersonalInfoForm({ data, onChange, error }: PersonalInfoFormProps) {
 
-  const inputStyle = "my-2 rounded-md border border-light_gray h-12 w-full indent-4 font-medium";
-  const inputStyle_error = "my-2 rounded-md border border-strawberry_red outline-none h-12 w-full indent-4 font-medium";
+  const inputStyle = "my-2 rounded-md border h-12 w-full indent-4 font-medium hover:cursor-pointer focus:border-purplish_blue focus:outline-none";
   const labelStyle = "text-sm text-marine_blue font-bold"
   
   return (
@@ -28,12 +27,13 @@ export default function Form_1({ data, onChange, error }: Form1Props) {
           {error.name && <p className="text-sm font-bold text-strawberry_red">{error.name}</p>}
         </div>
         <input
-          className={error.name ? inputStyle_error : inputStyle}
+          className={`${inputStyle} ${error.name ? 'border-strawberry_red' : 'border-light_gray'}`}
           type="text"
           placeholder="e.g. Stephen King"
           value={data.name}
           onChange={(e) => onChange(prev => ({ ...prev, name: e.target.value }))}
           required
+          autoFocus
         />
       </div>
       <div className="my-2">
@@ -42,7 +42,7 @@ export default function Form_1({ data, onChange, error }: Form1Props) {
           {error.email && <p className="text-sm font-bold text-strawberry_red">{error.email}</p>}
         </div>
         <input
-          className={error.email ? inputStyle_error : inputStyle}
+          className={`${inputStyle} ${error.email ? 'border-strawberry_red' : 'border-light_gray'}`}
           type="text"
           placeholder="e.g stephenking@lorem.com"
           value={data.email}
@@ -56,7 +56,7 @@ export default function Form_1({ data, onChange, error }: Form1Props) {
           {error.phone && <p className="text-sm font-bold text-strawberry_red">{error.phone}</p>}
         </div>
         <input
-          className={error.phone ? inputStyle_error : inputStyle}
+          className={`${inputStyle} ${error.phone ? 'border-strawberry_red' : 'border-light_gray'}`}
           type="text"
           placeholder="e.g +1 234 567 890"
           value={data.phone}

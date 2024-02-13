@@ -1,40 +1,51 @@
 import mobileBg from '../assets/bg-sidebar-mobile.svg';
-import { useState } from "react";
+import { ReactElement, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import Form_1 from './Form_1';
-import type { PersonalInfoFormError } from './Form_1';
+import PersonalForm from './PersonalInfoForm';
+import type { PersonalInfoFormError } from './PersonalInfoForm';
 import type { personalInfoData } from '../types/FormTypes';
-
-
-// const data: Form1Data = { name: '', email: '', phone: '' }
+import PlanForm from './PlanForm';
+import { PlanOffers } from '../Data/Data';
+import { planData } from '../types/FormTypes';
 
 export default function MultiStepForm() {
+  const isDesktop: boolean = useMediaQuery({ minWidth: 940 });
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [pInfo, setPInfo] = useState<personalInfoData>({name: '', email: '', phone: ''});
   const [pInfoError, setPInfoError] = useState<PersonalInfoFormError>({name: null, email: null, phone: null});
 
-  const isDesktop: boolean = useMediaQuery({ minWidth: 940 });
+  const [planData, setPlanData] = useState<planData>();
+
+  const FormPages: ReactElement[] = [
+    <PersonalForm data={pInfo} onChange={setPInfo} error={pInfoError}/>,
+    <PlanForm plans={PlanOffers}/>,
+  ]
 
   const goNextStep = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if(currentStep === 1) console.log(validatePInfoFields());
-      return
+    if(currentStep === 0 && !validatePInfoFields())
+      return;
     setCurrentStep(prev => prev + 1);
   }
 
   const goPrevStep = () => {
     setCurrentStep(prev => prev - 1);
   }
-
-  const validatePInfoFields = () => {
+  // Returns true if all the fields are valid
+  const validatePInfoFields = (): boolean => {
     const emptyField = 'This field is required';
-    const errors: PersonalInfoFormError  = { 
-      name: pInfo.name ? null : emptyField,
-      email: pInfo.email ? null : emptyField,
-      phone: pInfo.phone ? null : emptyField
-    }
+    const errors: PersonalInfoFormError = {name: null, email: null, phone: null};
+    if(!pInfo.name) errors.name = emptyField;
+
+    if(!pInfo.email) errors.email = emptyField;
+    else if(!(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g).test(pInfo.email)) errors.email = "This field must be email format";
+    
+    if(!pInfo.phone) errors.phone = emptyField;
+    else if(!(/^[+][(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/g).test(pInfo.phone)) errors.phone = "This field must be phone format"
+    
     setPInfoError(errors);
-    return !!errors.name || !!errors.email || !!errors.phone
+    console.log(errors);
+    return !errors.name && !errors.email && !errors.phone
   }
 
   const buttonGroup = (
@@ -45,7 +56,7 @@ export default function MultiStepForm() {
       >
         Next Step
       </button>
-      {currentStep > 1 && <button className="text-cool_gray" onClick={goPrevStep}>Go Back</button>}
+      {currentStep > 0 && <button className="text-cool_gray" onClick={goPrevStep}>Go Back</button>}
     </footer>
   )
 
@@ -64,7 +75,7 @@ export default function MultiStepForm() {
           noValidate
         >
           <section>
-            <Form_1 data={pInfo} onChange={setPInfo} error={pInfoError}/>
+          {FormPages[currentStep]}
           </section>
           {buttonGroup}
         </form>
@@ -77,7 +88,7 @@ export default function MultiStepForm() {
       <div className="relative">
         <img className='absolute z-[-1]' src={mobileBg} />
       </div>
-      <form className='flex flex-col justify-between pt-10 items-center h-full' onSubmit={goNextStep}>
+      <form className='flex flex-col justify-between pt-10 items-center h-full' onSubmit={goNextStep} noValidate>
         <section className=''>
           <div className='flex justify-center gap-4'>
             <Step step={1} currentStep={currentStep} />
@@ -86,7 +97,7 @@ export default function MultiStepForm() {
             <Step step={4} currentStep={currentStep} />
           </div>
           <section className='w-[350px] bg-white rounded-2xl relative'>
-            <Form_1 data={pInfo} onChange={setPInfo} error={pInfoError}/>
+            {FormPages[currentStep]}
           </section>
         </section>
         {buttonGroup}
@@ -101,7 +112,7 @@ export default function MultiStepForm() {
 
 const Step = ({ step, text, currentStep }: { step: number, text?: string, currentStep: number }) => {
 
-  const activeStyles = step === currentStep ? "bg-light_blue text-black " : "";
+  const activeStyles = step === currentStep+1 ? "bg-light_blue text-black " : "";
 
   return (
     <div className="text-sm text-alabaster font-bold mb-7">
