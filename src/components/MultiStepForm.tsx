@@ -7,6 +7,7 @@ import type { personalInfoData } from '../types/FormTypes';
 import PlanForm from './PlanForm';
 import { PlanOffers } from '../Data/Data';
 import { planData } from '../types/FormTypes';
+import AddonsForm from './AddonsForm';
 
 export default function MultiStepForm() {
   const isDesktop: boolean = useMediaQuery({ minWidth: 940 });
@@ -19,6 +20,7 @@ export default function MultiStepForm() {
   const FormPages: ReactElement[] = [
     <PersonalForm data={pInfo} onChange={setPInfo} error={pInfoError}/>,
     <PlanForm plans={PlanOffers}/>,
+    <AddonsForm />
   ]
 
   const goNextStep = (e: React.FormEvent<HTMLFormElement>) => {
@@ -49,9 +51,9 @@ export default function MultiStepForm() {
   }
 
   const buttonGroup = (
-    <footer className="w-full p-4 bg-white flex justify-between flex-row-reverse">
+    <footer className="w-full pb-4 pr-12 pl-14 bg-white flex justify-between flex-row-reverse">
       <button 
-        className="w-28 h-11 text-alabaster bg-marine_blue hover:bg rounded ds:rounded-lg" 
+        className="w-32 h-12 text-alabaster bg-marine_blue hover:bg rounded ds:rounded-lg" 
         type='submit'
       >
         Next Step
