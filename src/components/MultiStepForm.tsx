@@ -33,10 +33,13 @@ export default function MultiStepForm() {
     if(currentStep === 0 && !validatePInfoFields())
       return;
     setCurrentStep(prev => prev + 1);
+    console.log('submitted');
   }
 
-  const goPrevStep = () => {
+  const goPrevStep = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     setCurrentStep(prev => prev - 1);
+    console.log('go back')
   }
 
 
@@ -59,14 +62,14 @@ export default function MultiStepForm() {
   }
 
   const buttonGroup = (
-    <footer className="w-full pb-4 pr-12 pl-14 bg-white flex justify-between flex-row-reverse">
+    <footer className="w-full p-4 ds:pr-12 ds:pl-14 bg-white flex justify-between flex-row-reverse">
       <button 
-        className="w-32 h-12 text-alabaster bg-marine_blue hover:bg rounded ds:rounded-lg" 
+        className="w-24 h-10 ds:w-32 ds:h-12 text-sm ds:text-base text-alabaster bg-marine_blue hover:bg rounded-md ds:rounded-lg" 
         type='submit'
       >
         Next Step
       </button>
-      {currentStep > 0 && <button className="text-cool_gray" onClick={goPrevStep}>Go Back</button>}
+      {currentStep > 0 && <button className="text-cool_gray font-medium" onClick={(e) => goPrevStep(e)}>Go Back</button>}
     </footer>
   )
 

@@ -18,7 +18,7 @@ export default function PersonalInfoForm({ data, onChange, error }: PersonalInfo
   const labelStyle = "text-sm text-marine_blue font-bold"
   
   return (
-    <div className="pl-4 pr-4 ds:pl-16 ds:pr-10 ds:pt-0 ds:pb-6">
+    <div className=" px-6 py-8 ds:px-4 ds:pl-16 ds:pr-10 ds:pt-0 ds:pb-6">
       <h1 className="font-extrabold text-[32px] text-marine_blue mb-1">Personal info</h1>
       <p className="text-cool_gray mb-8 text-[15.5px]">Please provide your name, email, address, and phone number.</p>
       <div className="my-2">
