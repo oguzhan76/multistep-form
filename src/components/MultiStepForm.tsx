@@ -6,7 +6,7 @@ import type { PersonalInfoFormError } from './PersonalInfoForm';
 import type { personalInfoData } from '../types/FormTypes';
 import PlanForm from './PlanForm';
 import { PlanOffers } from '../Data/Data';
-import { planData } from '../types/FormTypes';
+import { planData, Recurral, PlanType } from '../types/FormTypes';
 import AddonsForm from './AddonsForm';
 
 export default function MultiStepForm() {
@@ -14,12 +14,17 @@ export default function MultiStepForm() {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [pInfo, setPInfo] = useState<personalInfoData>({name: '', email: '', phone: ''});
   const [pInfoError, setPInfoError] = useState<PersonalInfoFormError>({name: null, email: null, phone: null});
+  const [planData, setPlanData] = useState<planData>({ type: PlanType.ARCADE, recurral: Recurral.MONTHLY });
 
-  const [planData, setPlanData] = useState<planData>();
+  console.log(planData)
+
+  const handlePlanChange = (planData: Partial<planData>) => {
+    setPlanData(prev => ({...prev, ...planData}));
+  }
 
   const FormPages: ReactElement[] = [
     <PersonalForm data={pInfo} onChange={setPInfo} error={pInfoError}/>,
-    <PlanForm plans={PlanOffers}/>,
+    <PlanForm offers={PlanOffers} plan={planData} onChange={handlePlanChange}/>,
     <AddonsForm />
   ]
 
@@ -33,6 +38,9 @@ export default function MultiStepForm() {
   const goPrevStep = () => {
     setCurrentStep(prev => prev - 1);
   }
+
+
+
   // Returns true if all the fields are valid
   const validatePInfoFields = (): boolean => {
     const emptyField = 'This field is required';

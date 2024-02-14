@@ -6,3 +6,7 @@ body {
   font-family: 'Ubuntu', 'Times New Roman';
   @apply bg-magnolia
 }
+
+.selectedPlan {
+  @apply bg-magnolia border-purplish_blue;
+}

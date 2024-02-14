@@ -4,9 +4,20 @@ export interface personalInfoData {
     phone: string,
 }
 
+export enum Recurral {
+    MONTHLY = 'monthly',
+    YEARLY = 'yearly'
+}
+
+export enum PlanType {
+    ARCADE = 'arcade',
+    ADVANCED = 'advanced',
+    PRO = 'pro'
+}
+
 export interface planData {
-    type: 'Arcade' | "Advanced" | "Pro",
-    recurral: 'Monthly' | "Yearly"
+    type: PlanType,
+    recurral: Recurral
 }
 
 export interface addonsData {
