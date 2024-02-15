@@ -3,3 +3,10 @@ export interface Offers {
         monthly: string,
         yearly: string
 }}
+
+export interface Addons {
+    [key: string]: { 
+        selected: boolean, 
+        price: string 
+    }
+}

@@ -1,4 +1,4 @@
-export interface personalInfoData { 
+export interface PersonalInfoFormData { 
     name: string,
     email: string, 
     phone: string,
@@ -15,19 +15,17 @@ export enum PlanType {
     PRO = 'pro'
 }
 
-export interface planData {
+export interface PlanFormData {
     type: PlanType,
     recurral: Recurral
 }
 
-export interface addonsData {
-    onlineService: boolean,
-    largerStorage: boolean,
-    CustomizableProfile: boolean
+export interface AddonsFormData {
+    [key: string]: boolean
 }
 
-export interface formData {
-    personalInfo: personalInfoData;
-    plan: planData,
-    addons: addonsData
+export interface FormData {
+    personalInfo: PersonalInfoFormData;
+    plan: PlanFormData,
+    addons: AddonsFormData
   } 

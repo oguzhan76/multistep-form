@@ -1,4 +1,4 @@
-import { personalInfoData } from "../types/FormTypes";
+import { PersonalInfoFormData } from "../types/FormTypes";
 
 export type PersonalInfoFormError = {
   name: string | null,
@@ -7,8 +7,8 @@ export type PersonalInfoFormError = {
 }
 
 type PersonalInfoFormProps = {
-  data: personalInfoData,
-  onChange: React.Dispatch<React.SetStateAction<personalInfoData>>,
+  data: PersonalInfoFormData,
+  onChange: React.Dispatch<React.SetStateAction<PersonalInfoFormData>>,
   error: PersonalInfoFormError
 }
 

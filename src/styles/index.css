@@ -7,6 +7,10 @@ body {
   @apply bg-magnolia
 }
 
-.selectedPlan {
+.card {
+  @apply p-4 border border-light_gray rounded-lg ds:w-[136px] h-fit flex ds:flex-col hover:border-purplish_blue;
+}
+
+.selected-card {
   @apply bg-magnolia border-purplish_blue;
 }

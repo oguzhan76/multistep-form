@@ -3,22 +3,29 @@ import { ReactElement, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import PersonalForm from './PersonalInfoForm';
 import type { PersonalInfoFormError } from './PersonalInfoForm';
-import type { personalInfoData } from '../types/FormTypes';
+import type { AddonsFormData, PersonalInfoFormData } from '../types/FormTypes';
 import PlanForm from './PlanForm';
-import { PlanOffers } from '../Data/Data';
-import { planData, Recurral, PlanType } from '../types/FormTypes';
+import { PlanOffers, AddonOffers } from '../Data/Data';
+import { PlanFormData, Recurral, PlanType } from '../types/FormTypes';
 import AddonsForm from './AddonsForm';
+
+//Create object from addonOffers with only selected boolean as value.
+const addonsData: AddonsFormData = {};
+Object.keys(AddonOffers).forEach(addonName => {
+  addonsData[addonName] = AddonOffers[addonName].selected;
+})
 
 export default function MultiStepForm() {
   const isDesktop: boolean = useMediaQuery({ minWidth: 940 });
   const [currentStep, setCurrentStep] = useState<number>(1);
-  const [pInfo, setPInfo] = useState<personalInfoData>({name: '', email: '', phone: ''});
+  const [pInfo, setPInfo] = useState<PersonalInfoFormData>({name: '', email: '', phone: ''});
   const [pInfoError, setPInfoError] = useState<PersonalInfoFormError>({name: null, email: null, phone: null});
-  const [planData, setPlanData] = useState<planData>({ type: PlanType.ARCADE, recurral: Recurral.MONTHLY });
+  const [planData, setPlanData] = useState<PlanFormData>({ type: PlanType.ARCADE, recurral: Recurral.MONTHLY });
+  const [addons, setAddons] = useState<AddonsFormData>(addonsData);
 
-  console.log(planData)
+  console.log(addonsData);
 
-  const handlePlanChange = (planData: Partial<planData>) => {
+  const handlePlanChange = (planData: Partial<PlanFormData>) => {
     setPlanData(prev => ({...prev, ...planData}));
   }
 
