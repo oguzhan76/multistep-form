@@ -19,9 +19,17 @@ export interface PlanFormData {
     type: PlanType,
     recurral: Recurral
 }
+// export type AddonKeys = "onlineService" | "largerStorage" | 'customizableProfile';
+export enum AddonKeys {
+    ONLINESERVICE = "onlineService",
+    LARGERSTORAGE = "largerStorage",
+    CUSTOMIZABLEPROFILE = "customizableProfile"
+}
 
-export interface AddonsFormData {
-    [key: string]: boolean
+
+export type AddonsFormData = {
+    // [key: string]: boolean
+    [key in AddonKeys as string]: boolean
 }
 
 export interface FormData {

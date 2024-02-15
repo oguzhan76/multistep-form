@@ -1,4 +1,5 @@
 import type { Offers, Addons } from "../types/DataTypes"
+import { AddonKeys } from "../types/FormTypes";
 
 export const PlanOffers: Offers = {
     arcade: { monthly: '9', yearly: '90' }, 
@@ -7,7 +8,7 @@ export const PlanOffers: Offers = {
 };
 
 export const AddonOffers: Addons = {
-    onlineService: {selected: true, price: '1'},
-    largerStorage: {selected: true, price: '2'},
-    customizableProfile: {selected: false, price: '2'}
+    [AddonKeys.ONLINESERVICE as string]: {selected: true, price: '1'},
+    [AddonKeys.LARGERSTORAGE  as string]: {selected: true, price: '2'},
+    [AddonKeys.CUSTOMIZABLEPROFILE  as string]: {selected: false, price: '2'}
 }

@@ -1,11 +1,13 @@
+import { AddonKeys } from "./FormTypes"
+
 export interface Offers {
     [key: string]: {
         monthly: string,
         yearly: string
 }}
 
-export interface Addons {
-    [key: string]: { 
+export type Addons = {
+    [key in AddonKeys as string]: { 
         selected: boolean, 
         price: string 
     }

@@ -10,9 +10,10 @@ import { PlanFormData, Recurral, PlanType } from '../types/FormTypes';
 import AddonsForm from './AddonsForm';
 
 //Create object from addonOffers with only selected boolean as value.
-const addonsData: AddonsFormData = {};
-Object.keys(AddonOffers).forEach(addonName => {
-  addonsData[addonName] = AddonOffers[addonName].selected;
+const addonsFormData: AddonsFormData = {} as AddonsFormData;
+Object.keys(AddonOffers).forEach((addonName) => {
+  addonsFormData[addonName] = AddonOffers[addonName].selected;
+  console.log(addonsFormData[addonName]);
 })
 
 export default function MultiStepForm() {
@@ -21,9 +22,7 @@ export default function MultiStepForm() {
   const [pInfo, setPInfo] = useState<PersonalInfoFormData>({name: '', email: '', phone: ''});
   const [pInfoError, setPInfoError] = useState<PersonalInfoFormError>({name: null, email: null, phone: null});
   const [planData, setPlanData] = useState<PlanFormData>({ type: PlanType.ARCADE, recurral: Recurral.MONTHLY });
-  const [addons, setAddons] = useState<AddonsFormData>(addonsData);
-
-  console.log(addonsData);
+  const [addons, setAddons] = useState<AddonsFormData>(addonsFormData);
 
   const handlePlanChange = (planData: Partial<PlanFormData>) => {
     setPlanData(prev => ({...prev, ...planData}));
@@ -32,7 +31,7 @@ export default function MultiStepForm() {
   const FormPages: ReactElement[] = [
     <PersonalForm data={pInfo} onChange={setPInfo} error={pInfoError}/>,
     <PlanForm offers={PlanOffers} plan={planData} onChange={handlePlanChange}/>,
-    <AddonsForm />
+    <AddonsForm addons={addons} onChange={setAddons}/>
   ]
 
   const goNextStep = (e: React.FormEvent<HTMLFormElement>) => {
@@ -40,16 +39,12 @@ export default function MultiStepForm() {
     if(currentStep === 0 && !validatePInfoFields())
       return;
     setCurrentStep(prev => prev + 1);
-    console.log('submitted');
   }
 
   const goPrevStep = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setCurrentStep(prev => prev - 1);
-    console.log('go back')
   }
-
-
 
   // Returns true if all the fields are valid
   const validatePInfoFields = (): boolean => {
@@ -57,14 +52,15 @@ export default function MultiStepForm() {
     const errors: PersonalInfoFormError = {name: null, email: null, phone: null};
     if(!pInfo.name) errors.name = emptyField;
 
+    const emailFormat = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     if(!pInfo.email) errors.email = emptyField;
-    else if(!(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g).test(pInfo.email)) errors.email = "This field must be email format";
+    else if(!emailFormat.test(pInfo.email)) errors.email = "This field must be email format";
     
+    const phoneFormat = /^[+][(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/g;
     if(!pInfo.phone) errors.phone = emptyField;
-    else if(!(/^[+][(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/g).test(pInfo.phone)) errors.phone = "This field must be phone format"
+    else if(!phoneFormat.test(pInfo.phone)) errors.phone = "This field must be phone format"
     
     setPInfoError(errors);
-    console.log(errors);
     return !errors.name && !errors.email && !errors.phone
   }
 
@@ -124,7 +120,7 @@ export default function MultiStepForm() {
       </form>
     </div>
   )
-    // console.log(PInfoHasEmptyField());
+
   return isDesktop ? desktop : mobile;  
 }
 
