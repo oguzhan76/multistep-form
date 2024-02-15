@@ -1,34 +1,17 @@
+import { AddonKeys, PlanType, Recurral } from "./DataTypes";
+
 export interface PersonalInfoFormData { 
     name: string,
     email: string, 
     phone: string,
 }
 
-export enum Recurral {
-    MONTHLY = 'monthly',
-    YEARLY = 'yearly'
-}
-
-export enum PlanType {
-    ARCADE = 'arcade',
-    ADVANCED = 'advanced',
-    PRO = 'pro'
-}
-
 export interface PlanFormData {
     type: PlanType,
     recurral: Recurral
 }
-// export type AddonKeys = "onlineService" | "largerStorage" | 'customizableProfile';
-export enum AddonKeys {
-    ONLINESERVICE = "onlineService",
-    LARGERSTORAGE = "largerStorage",
-    CUSTOMIZABLEPROFILE = "customizableProfile"
-}
-
 
 export type AddonsFormData = {
-    // [key: string]: boolean
     [key in AddonKeys as string]: boolean
 }
 

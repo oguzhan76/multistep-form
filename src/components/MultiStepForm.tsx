@@ -1,37 +1,57 @@
 import mobileBg from '../assets/bg-sidebar-mobile.svg';
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import PersonalForm from './PersonalInfoForm';
 import type { PersonalInfoFormError } from './PersonalInfoForm';
-import type { AddonsFormData, PersonalInfoFormData } from '../types/FormTypes';
+import type { PersonalInfoFormData, PlanFormData, AddonsFormData } from '../types/FormTypes';
+import { Recurral, PlanType } from '../types/DataTypes';
 import PlanForm from './PlanForm';
 import { PlanOffers, AddonOffers } from '../Data/Data';
-import { PlanFormData, Recurral, PlanType } from '../types/FormTypes';
 import AddonsForm from './AddonsForm';
+import Summary from './Summary';
 
 //Create object from addonOffers with only selected boolean as value.
 const addonsFormData: AddonsFormData = {} as AddonsFormData;
 Object.keys(AddonOffers).forEach((addonName) => {
   addonsFormData[addonName] = AddonOffers[addonName].selected;
-  console.log(addonsFormData[addonName]);
 })
 
 export default function MultiStepForm() {
+
+  const CalculateTotalPrice = () => {
+    let totalAddons: number = 0;
+    Object.keys(AddonOffers).forEach(key => {
+      if(addons[key]) 
+        totalAddons += AddonOffers[key].price[planData.recurral]
+    })
+    return PlanOffers[planData.type][planData.recurral] + totalAddons;
+  }
+
   const isDesktop: boolean = useMediaQuery({ minWidth: 940 });
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [pInfo, setPInfo] = useState<PersonalInfoFormData>({name: '', email: '', phone: ''});
   const [pInfoError, setPInfoError] = useState<PersonalInfoFormError>({name: null, email: null, phone: null});
   const [planData, setPlanData] = useState<PlanFormData>({ type: PlanType.ARCADE, recurral: Recurral.MONTHLY });
   const [addons, setAddons] = useState<AddonsFormData>(addonsFormData);
+  const [totalPrice, setTotalPrice] = useState(CalculateTotalPrice());
+  
+  useEffect(() => {
+    setTotalPrice(CalculateTotalPrice);
+  }, [planData, addons])
 
   const handlePlanChange = (planData: Partial<PlanFormData>) => {
     setPlanData(prev => ({...prev, ...planData}));
   }
 
+  const goPlanSelectionPage = () => {
+    setCurrentStep(1);
+  }
+
   const FormPages: ReactElement[] = [
     <PersonalForm data={pInfo} onChange={setPInfo} error={pInfoError}/>,
     <PlanForm offers={PlanOffers} plan={planData} onChange={handlePlanChange}/>,
-    <AddonsForm addons={addons} onChange={setAddons}/>
+    <AddonsForm addons={addons} recurral={planData.recurral} onChange={setAddons}/>,
+    <Summary plan={planData} addons={addons} totalPrice={totalPrice} reselectPlan={goPlanSelectionPage}/>
   ]
 
   const goNextStep = (e: React.FormEvent<HTMLFormElement>) => {
@@ -54,11 +74,11 @@ export default function MultiStepForm() {
 
     const emailFormat = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     if(!pInfo.email) errors.email = emptyField;
-    else if(!emailFormat.test(pInfo.email)) errors.email = "This field must be email format";
+    else if(!emailFormat.test(pInfo.email)) errors.email = "Must be an email format";
     
     const phoneFormat = /^[+][(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/g;
     if(!pInfo.phone) errors.phone = emptyField;
-    else if(!phoneFormat.test(pInfo.phone)) errors.phone = "This field must be phone format"
+    else if(!phoneFormat.test(pInfo.phone)) errors.phone = "Must be a phone format"
     
     setPInfoError(errors);
     return !errors.name && !errors.email && !errors.phone

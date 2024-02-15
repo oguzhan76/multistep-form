@@ -2,8 +2,8 @@ import arcadeIcon from '../assets/icon-arcade.svg';
 import advancedIcon from '../assets/icon-advanced.svg';
 import proIcon from '../assets/icon-pro.svg';
 import { Offers } from "../types/DataTypes";
-import { PlanType, PlanFormData } from '../types/FormTypes';
-import { Recurral } from '../types/FormTypes';
+import { PlanFormData } from '../types/FormTypes';
+import { Recurral, PlanType } from '../types/DataTypes';
 
 
 type PlanFormProps = {
