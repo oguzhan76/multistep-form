@@ -112,7 +112,7 @@ export default function MultiStepForm() {
             <Step step={3} currentStep={currentStep} />
             <Step step={4} currentStep={currentStep} />
           </div>
-          <section className='w-[350px] bg-white rounded-2xl relative'>
+          <section className='w-[344px] bg-white rounded-2xl relative'>
             {FormPages[currentStep]}
           </section>
         </section>

@@ -9,6 +9,8 @@ export interface Offers {
 export type Addons = {
     [key in AddonKeys as string]: { 
         selected: boolean, 
-        price: string 
+        title: string,
+        subtitle: string, 
+        price: string,
     }
 }

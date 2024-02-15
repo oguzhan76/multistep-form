@@ -32,7 +32,7 @@ export default function PlanForm({ offers, plan, onChange }: PlanFormProps) {
             <p className="text-cool_gray mb-4 text-[16.5px] ds:text-[15.5px]">You have the option of monthly or yearly billing.</p>
             <section className='ds:mt-10 w-full flex flex-col ds:flex-row gap-3 ds:gap-5 text-marine_blue'>
                 <button
-                    className={`card ds:w-[136px] ds:flex-col ${plan.type === PlanType.ARCADE && 'selected-card'}`}
+                    className={`card p-4 ds:w-[136px] ds:flex-col ${plan.type === PlanType.ARCADE && 'selected-card'}`}
                     onClick={(e) => { handlePlanSelection(e, PlanType.ARCADE) }}
                 >
                     <img src={arcadeIcon} />
@@ -43,7 +43,7 @@ export default function PlanForm({ offers, plan, onChange }: PlanFormProps) {
                     </div>
                 </button>
                 <button
-                    className={`card ds:w-[136px] ds:flex-col ${plan.type === PlanType.ADVANCED && 'selected-card'}`}
+                    className={`card p-4 ds:w-[136px] ds:flex-col ${plan.type === PlanType.ADVANCED && 'selected-card'}`}
                     onClick={(e) => { handlePlanSelection(e, PlanType.ADVANCED) }}
                 >
                     <img src={advancedIcon} />
@@ -54,7 +54,7 @@ export default function PlanForm({ offers, plan, onChange }: PlanFormProps) {
                     </div>
                 </button>
                 <button
-                    className={`card ds:w-[136px] ds:flex-col ${plan.type === PlanType.PRO && 'selected-card'}`}
+                    className={`card p-4 ds:w-[136px] ds:flex-col ${plan.type === PlanType.PRO && 'selected-card'}`}
                     onClick={(e) => { handlePlanSelection(e, PlanType.PRO) }}
                 >
                     <img src={proIcon} />

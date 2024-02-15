@@ -8,7 +8,7 @@ body {
 }
 
 .card {
-  @apply p-4 border border-light_gray rounded-lg h-fit flex hover:border-purplish_blue;
+  @apply border border-light_gray rounded-lg h-fit flex hover:border-purplish_blue;
 }
 
 .selected-card {
