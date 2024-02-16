@@ -29,7 +29,7 @@ export default function MultiStepForm() {
   }
 
   const isDesktop: boolean = useMediaQuery({ minWidth: 940 });
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const [currentStep, setCurrentStep] = useState<number>(0);
   const [pInfo, setPInfo] = useState<PersonalInfoFormData>({ name: '', email: '', phone: '' });
   const [pInfoError, setPInfoError] = useState<PersonalInfoFormError>({ name: null, email: null, phone: null });
   const [planData, setPlanData] = useState<PlanFormData>({ type: PlanType.ARCADE, recurring: Recurring.MONTHLY });
