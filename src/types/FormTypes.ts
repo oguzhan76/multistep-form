@@ -1,4 +1,4 @@
-import { AddonKeys, PlanType, Recurral } from "./DataTypes";
+import { AddonKeys, PlanType, Recurring } from "./DataTypes";
 
 export interface PersonalInfoFormData { 
     name: string,
@@ -8,7 +8,7 @@ export interface PersonalInfoFormData {
 
 export interface PlanFormData {
     type: PlanType,
-    recurral: Recurral
+    recurring: Recurring
 }
 
 export type AddonsFormData = {

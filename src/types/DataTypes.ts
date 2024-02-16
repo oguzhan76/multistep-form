@@ -1,8 +1,8 @@
 type Price = {
-    [key in Recurral]: number
+    [key in Recurring]: number
 }
 
-export enum Recurral {
+export enum Recurring {
     MONTHLY = 'monthly',
     YEARLY = 'yearly'
 }

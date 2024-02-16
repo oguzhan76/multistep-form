@@ -1,15 +1,15 @@
 import checkMark from '../assets/check-mark-svgrepo-com.svg';
-import { AddonKeys, Recurral } from '../types/DataTypes';
+import { AddonKeys, Recurring } from '../types/DataTypes';
 import { AddonsFormData } from '../types/FormTypes';
 import { AddonOffers } from '../Data/Data';
 
 type AddonsFormProps = {
   addons: AddonsFormData,
-  recurral: Recurral,
+  recurring: Recurring,
   onChange: React.Dispatch<React.SetStateAction<AddonsFormData>>
 }
 
-export default function AddonsForm({ addons, recurral, onChange }: AddonsFormProps) {
+export default function AddonsForm({ addons, recurring, onChange }: AddonsFormProps) {
 
   const handleAddonSelection = (selectedAddon: string) => {
     onChange({ ...addons, [selectedAddon]: !addons[selectedAddon] });
@@ -19,21 +19,21 @@ export default function AddonsForm({ addons, recurral, onChange }: AddonsFormPro
     <div className=" px-6 py-7 ds:px-4 ds:pl-16 ds:pr-10 ds:pt-0 ds:pb-6">
       <h1 className="font-extrabold text-[24px] ds:text-[32px] text-marine_blue mb-1">Pick add-ons</h1>
       <p className="text-cool_gray mb-6 ds:mb-8 text-[15.5px]">Add-ons help enhance your gaming experience.</p>
-      <Card addon={AddonKeys.ONLINESERVICE as string} addons={addons} recurral={recurral} onClick={handleAddonSelection}/>
-      <Card addon={AddonKeys.LARGERSTORAGE as string} addons={addons} recurral={recurral} onClick={handleAddonSelection}/>
-      <Card addon={AddonKeys.CUSTOMIZABLEPROFILE as string} addons={addons} recurral={recurral} onClick={handleAddonSelection}/>
+      <Card addon={AddonKeys.ONLINESERVICE as string} addons={addons} recurring={recurring} onClick={handleAddonSelection}/>
+      <Card addon={AddonKeys.LARGERSTORAGE as string} addons={addons} recurring={recurring} onClick={handleAddonSelection}/>
+      <Card addon={AddonKeys.CUSTOMIZABLEPROFILE as string} addons={addons} recurring={recurring} onClick={handleAddonSelection}/>
     </div>
   )
 }
 
 type CardProps = {
   addon: string, 
-  recurral: Recurral,
+  recurring: Recurring,
   addons: AddonsFormData, 
   onClick: (value: string) => void
 }
 
-const Card = ({addon, addons, recurral, onClick}: CardProps) => {
+const Card = ({addon, addons, recurring, onClick}: CardProps) => {
   return (
     <div 
       className={`card px-4 py-2 ds:p-4 mb-4 justify-between items-center cursor-pointer select-none ${addons[addon] && 'selected-card'}`} 
@@ -53,7 +53,7 @@ const Card = ({addon, addons, recurral, onClick}: CardProps) => {
         <p className="ds:text-sm text-xs text-cool_gray" >{AddonOffers[addon].subtitle}</p>
       </div>
     </div>
-    <p className="text-sm text-purplish_blue" >+${AddonOffers[addon].price[recurral]}{recurral === 'yearly' ? '/yr' : '/mo'}</p>
+    <p className="text-sm text-purplish_blue" >+${AddonOffers[addon].price[recurring]}{recurring === 'yearly' ? '/yr' : '/mo'}</p>
   </div>
   )
 }
